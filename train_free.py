@@ -55,13 +55,12 @@ netE = model.Encoder(opt)
 netG = model.Generator(opt)
 netD = model.Discriminator(opt)
 # Init models: Feedback module, auxillary module
-netF = model.Feedback(opt)
+ 
 netFR = model.FR(opt, opt.attSize)
 
 print(netE)
 print(netG)
 print(netD)
-print(netF)
 print(netFR)
  
 ###########
@@ -79,7 +78,6 @@ beta=0
 if opt.cuda:
     netD.cuda()
     netE.cuda()
-    netF.cuda()
     netG.cuda()
 
     netFR.cuda()
@@ -108,7 +106,7 @@ def WeightedL1(pred, gt):
     loss = wt * (pred-gt).abs()
     return loss.sum()/loss.size(0)
     
-def generate_syn_feature(generator,classes, attribute,num,netFR=None):
+def generate_syn_feature(generator,classes, attribute,num):
     nclass = classes.size(0)
     syn_feature = torch.FloatTensor(nclass*num, opt.resSize)
     syn_label = torch.LongTensor(nclass*num) 
@@ -136,7 +134,6 @@ def generate_syn_feature(generator,classes, attribute,num,netFR=None):
 optimizer          = optim.Adam(netE.parameters(), lr=opt.lr)
 optimizerD         = optim.Adam(netD.parameters(), lr=opt.lr,betas=(opt.beta1, 0.999))
 optimizerG         = optim.Adam(netG.parameters(), lr=opt.lr,betas=(opt.beta1, 0.999))
-optimizerF         = optim.Adam(netF.parameters(), lr=opt.feed_lr, betas=(opt.beta1, 0.999))
 optimizerFR      = optim.Adam(netFR.parameters(), lr=opt.dec_lr, betas=(opt.beta1, 0.999))
 optimizer_center   = optim.Adam(center_criterion.parameters(), lr=opt.lr,betas=(opt.beta1, 0.999))
 
@@ -288,7 +285,7 @@ for epoch in range(0,opt.nepoch):
 
             netE.zero_grad()
             netG.zero_grad()
-            # netF.zero_grad()
+
             input_resv = Variable(input_res)
             input_attv = Variable(input_att)
             means, log_var = netE(input_resv, input_attv)
@@ -296,14 +293,7 @@ for epoch in range(0,opt.nepoch):
             eps = torch.randn([opt.batch_size, opt.latent_size]).cpu()
             eps = Variable(eps.cuda())
             z = eps * std + means #torch.Size([64, 312])
-            # if loop == 1:
-                # recon_x = netG(z, c=input_attv)
-                # dec_out = netDec(recon_x)
-                # dec_hidden_feat = netDec.getLayersOutDet()
-                # feedback_out = netF(dec_hidden_feat)
-                # recon_x = netG(z, a1=opt.a1, c=input_attv, feedback_layers=feedback_out)
-            # else:
-                # recon_x = netG(z, c=input_attv)
+
             recon_x = netG(z, c=input_attv)
             vae_loss_seen = loss_fn(recon_x, input_resv, means, log_var) # minimize E 3 with this setting feedback will update the loss as well
             errG = vae_loss_seen
@@ -314,14 +304,7 @@ for epoch in range(0,opt.nepoch):
             else:
                 noise.normal_(0, 1)
                 noisev = Variable(noise)
-                # if loop == 1:
-                    # fake = netG(noisev, c=input_attv)
-                    # dec_out = netDec(recon_x) #Feedback from Decoder encoded output
-                    # dec_hidden_feat = netDec.getLayersOutDet()
-                    # feedback_out = netF(dec_hidden_feat)
-                    # fake = netG(noisev, a1=opt.a1, c=input_attv, feedback_layers=feedback_out)
-                # else:
-                    # fake = netG(noisev, c=input_attv)
+
                 fake = netG(noisev, c=input_attv)
                 criticG_fake = netD(fake,input_attv).mean()
                 
@@ -349,8 +332,8 @@ for epoch in range(0,opt.nepoch):
     print('[%d/%d]  Loss_D: %.4f Loss_G: %.4f, Wasserstein_dist:%.4f, vae_loss_seen:%.4f'% (epoch, opt.nepoch, D_cost.item(), G_cost.item(), Wasserstein_D.item(),vae_loss_seen.item()))#,end=" ")
     netG.eval()
     netFR.eval()
-    # netF.eval()
-    syn_feature, syn_label = generate_syn_feature(netG,data.unseenclasses, data.attribute, opt.syn_num,netFR=netFR)
+
+    syn_feature, syn_label = generate_syn_feature(netG,data.unseenclasses, data.attribute, opt.syn_num)
 
     ### Concatenate real seen features with synthesized unseen features
     train_X = torch.cat((data.train_feature, syn_feature), 0)
