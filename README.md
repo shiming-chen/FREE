@@ -7,7 +7,7 @@ This repository contains the reference code for the paper "**FREE: Feature Refin
 ## Preparing Dataset and Model
 Datasets can be download from [Xian et al. (CVPR2017)](https://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip) and take them into dir `data`.
 ## Requirements
-The code implementation of **GNDAN** mainly based on [PyTorch](https://pytorch.org/). All of our experiments run in Python 3.8.8.
+The code implementation of **FREE** mainly based on [PyTorch](https://pytorch.org/). All of our experiments run in Python 3.8.8.
 
 ## Runing
 Before running commands, you can set the hyperparameters in config.py. Please run the following commands and testing **FREE** on different datasets: 
