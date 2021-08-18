@@ -33,3 +33,8 @@ If this work is helpful for you, please cite our paper.
   year={2021}    
 }
 ```
+
+## 4. Ackowledgement
+We thank the following repos providing helpful components in our work.
+1. [TF-VAEGAN](https://github.com/akshitac8/tfvaegan)
+2. [cycle-CLSWGAN](https://github.com/rfelixmg/frwgan-eccv18)
