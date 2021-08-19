@@ -295,7 +295,7 @@ for epoch in range(0,opt.nepoch):
             z = eps * std + means #torch.Size([64, 312])
 
             recon_x = netG(z, c=input_attv)
-            vae_loss_seen = loss_fn(recon_x, input_resv, means, log_var) # minimize E 3 with this setting feedback will update the loss as well
+            vae_loss_seen = loss_fn(recon_x, input_resv, means, log_var) 
             errG = vae_loss_seen
             
             if opt.encoded_noise:
@@ -324,7 +324,7 @@ for epoch in range(0,opt.nepoch):
             # write a condition here
             optimizer.step()
             optimizerG.step()
-            # if opt.recons_weight > 0 and not opt.freeze_dec: # not train decoder at feedback time
+
             optimizerFR.step() 
         
     
