@@ -124,9 +124,9 @@ class FR(nn.Module):
 
     def forward(self, feat, train_G=False):
         h = feat
-        if self.embedSz > 0:
-            assert att is not None, 'Conditional Decoder requires attribute input'
-            h = torch.cat((feat,att),1)
+        #if self.embedSz > 0:
+        #   assert att is not None, 'Conditional Decoder requires attribute input'
+        #    h = torch.cat((feat,att),1)
         self.hidden = self.lrelu(self.fc1(h))
         self.lantent = self.fc3(self.hidden)
         mus,stds = self.lantent[:,:self.attSize],self.lantent[:,self.attSize:]
