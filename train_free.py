@@ -54,7 +54,7 @@ else:
 netE = model.Encoder(opt)
 netG = model.Generator(opt)
 netD = model.Discriminator(opt)
-# Init models: Feedback module, auxillary module
+
  
 netFR = model.FR(opt, opt.attSize)
 
