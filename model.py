@@ -1,4 +1,4 @@
-#author: akshitac8
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -62,7 +62,7 @@ class Generator(nn.Module):
         return x
        
 
-#conditional discriminator for inductive
+#conditional discriminator
 class Discriminator(nn.Module):
     def __init__(self, opt): 
         super(Discriminator, self).__init__()
@@ -77,18 +77,6 @@ class Discriminator(nn.Module):
         h = self.fc2(self.hidden)
         return h
         
-#Feedback Modules
-class Feedback(nn.Module):
-    def __init__(self,opt):
-        super(Feedback, self).__init__()
-        self.fc1 = nn.Linear(opt.ngh, opt.ngh)
-        self.fc2 = nn.Linear(opt.ngh, opt.ngh)
-        self.lrelu = nn.LeakyReLU(0.2, True)
-        self.apply(weights_init)
-    def forward(self,x):
-        self.x1 = self.lrelu(self.fc1(x))
-        h = self.lrelu(self.fc2(self.x1))
-        return h
 
 
 
