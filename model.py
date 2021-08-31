@@ -54,22 +54,13 @@ class Generator(nn.Module):
         self.sigmoid=nn.Sigmoid()
         self.apply(weights_init)
 
-    def _forward(self, z, c=None):
+    def forward(self, z, c=None):
         z = torch.cat((z, c), dim=-1)
         x1 = self.lrelu(self.fc1(z))
         x = self.sigmoid(self.fc3(x1))
         self.out = x1
         return x
-
-    def forward(self, z, a1=None, c=None, feedback_layers=None):
-        if feedback_layers is None:
-            return self._forward(z,c)
-        else:
-            z = torch.cat((z, c), dim=-1)
-            x1 = self.lrelu(self.fc1(z))
-            feedback_out = x1 + a1*feedback_layers
-            x = self.sigmoid(self.fc3(feedback_out))
-            return x
+       
 
 #conditional discriminator for inductive
 class Discriminator(nn.Module):
