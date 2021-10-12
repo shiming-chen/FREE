@@ -26,11 +26,12 @@ $ python ./image-scripts/run-awa2.py      #AWA2
 If this work is helpful for you, please cite our paper.
 
 ```
-@inproceedings{Chen2021FREE,  
-  title={FREE: Feature Refinement for Generalized Zero-Shot Learning},    
-  author={Chen, Shiming and Wang, Wenjie and Xia, Beihao and Peng, Qinmu and You, Xinge and Zheng, Feng and Shao,  Ling},    
-  booktitle={2021 IEEE/CVF International Conference on Computer Vision (ICCV)}, 
-  year={2021}    
+@InProceedings{Chen_2021_ICCV,
+    author    = {Chen, Shiming and Wang, Wenjie and Xia, Beihao and Peng, Qinmu and You, Xinge and Zheng, Feng and Shao, Ling},
+    title     = {FREE: Feature Refinement for Generalized Zero-Shot Learning},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    year      = {2021},
+    pages     = {122-131}
 }
 ```
 
