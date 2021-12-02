@@ -1,5 +1,5 @@
 # FREE
-This repository contains the reference code for the paper "**FREE: Feature Refinement for Generalized Zero-Shot Learning**". [[arXiv]](https://arxiv.org/pdf/2107.13807.pdf)[[Paper]](https://github.com/shiming-chen/FREE)
+This repository contains the reference code for the paper "**FREE: Feature Refinement for Generalized Zero-Shot Learning**" accepted to ICCV 2021. [[arXiv]](https://arxiv.org/pdf/2107.13807.pdf)[[Paper]](https://github.com/shiming-chen/FREE)
 
 ![](images/pipeline.png)
 
